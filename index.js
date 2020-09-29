@@ -34,7 +34,7 @@ fs.readdir("./commands/", (err,files) =>{
         bot.commands.set(cmdName,props);
     })
 });
-
+//Check if a methods is called
 bot.on("message", msg => {
     require("./events/messages.js")(bot,msg);
     //check if the bots is called
@@ -50,7 +50,8 @@ bot.on("message", msg => {
 
         try
         {
-            bot.command.get(command).execute(msg,args);
+          
+            bot.commands.get(command).run(bot,msg,args);
         }
         catch(error)
         {
