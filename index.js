@@ -36,7 +36,7 @@ fs.readdir("./commands/", (err,files) =>{
 });
 //Check if a methods is called
 bot.on("message", msg => {
-    require("./events/messages.js")(bot,msg);
+    //require("./events/messages.js")(bot,msg);
     //check if the bots is called
     if (!msg.content.startsWith(PREFIX) || msg.author.bot) return;
 
