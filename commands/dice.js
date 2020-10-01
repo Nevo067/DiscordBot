@@ -121,10 +121,32 @@ class RollDice {
     IsBiggerVal(tab,valSupp)
     {
         let tabValue = [];
+        let val;
+        tab.forEach(element => {
+            val = (element>valSupp)
+            tabValue.push(val);
+            
+         });
+         return tabValue;
+    }
+    IsSmallerVal(tab,valSupp)
+    {
+        let tabValue = [];
+        let val;
         tab.forEach(element => {
             val = (element<valSupp)
             tabValue.push(val);
             
+         });
+         return tabValue;
+    }
+    IsEqualVal(tab,valEqual)
+    {
+        let tabValue = [];
+        let val;
+        tab.forEach(element => {
+            val = (element==valEqual)
+            tabValue.push(val);
          });
          return tabValue;
     }
@@ -205,7 +227,7 @@ exports.run =(bot,message,args)=>{
                                         }
                                         message.channel.send(tabVal);
                                         message.channel.send("Somme "+sum);
-                                        message.channel.send(nbSuccess+" Sucess");
+                                        message.channel.send(nbSuccess+" Success");
                                     break;
                                 
                                     default:
@@ -221,37 +243,47 @@ exports.run =(bot,message,args)=>{
                     //Tarian
                     
                     default:
-                        rollDice.InitVal(args,lengthArgs-1);
-                        console.log(rollDice.numbers+"numbers");
-                        message.channel.send(rollDice.RollMultipleDice());
+                        switch(lengthArgs)
+                        {
+                            case 1:
+                                rollDice.InitVal(args,lengthArgs-1);
+                                console.log(rollDice.numbers+"numbers");
+                                message.channel.send(rollDice.RollMultipleDice());
+                            break;
+
+                            case 2:
+                                let prefx = args[1].slice(0,1);
+                                let numberVal = args[1].slice(1);
+                                console.log(numberVal);
+                                let tab;
+                                rollDice.InitVal(args,0);
+                                //console.log(rollDice.numbers+"numbers");
+                                tab = rollDice.RollMultipleDice();
+
+                               switch(prefx)
+                               {
+                                   case ">":
+                                      message.channel.send(tab); 
+                                      message.channel.send(rollDice.CalculSucess(rollDice.IsBiggerVal(tab,numberVal))+" success");
+                                    break;
+
+                                    case "<":
+                                        message.channel.send(tab); 
+                                        message.channel.send(rollDice.CalculSucess(rollDice.IsSmallerVal(tab,numberVal))+" success");
+                                    break;
+
+                                    case "=":
+                                        message.channel.send(tab); 
+                                        message.channel.send(rollDice.CalculSucess(rollDice.IsEqualVal(tab,numberVal))+" success");
+                                    break;
+                                    default:
+                                    break;
+                               }
+                            break;
+                        } 
                     break;
                 }
-        
     }
     //message.channel.send("GOODMORNING WORLD"+" "+message.author.username,`${message.author}`); 
-}
-
-
-
-// init value to roll a dice  
-function InitVal(args,dice,numbers,valDice,indexArgs)  {
-     dice = args[indexArgs];
-     numbers = dice[0];
-     valDice = dice.slice(2);
-     console.log(numbers+"num");
-     return dice,numbers,valDice;
-}
-// return a random value
-function RollOneDice(val) {
-    min = Math.ceil(1);
-    max = Math.floor(Number(val));
-    return Math.floor(Math.random() * (max - min +1)) + min;
-}
-//return a tab of number
-function RollMultipleDice(number,val) {
-    for (let i = 0; i < number; i++) {
-        tab.push(RollOneDice(val));
-    }
-    return tab;
 }
 
