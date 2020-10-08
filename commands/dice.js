@@ -18,12 +18,14 @@ class RollDice {
         this.valDice = this.dice.slice(2);
        
     }
+    //init value separately to roll dices
     InitValSep(numbers,valDice)
     {
         //this.dice = dice
         this.numbers = numbers
         this.valDice = valDice;
     }
+    //Role Dice as Goetia
     RollGoetia()
     {
         let tab;
@@ -35,6 +37,7 @@ class RollDice {
         console.log(tab);
         return tab;
     }
+    //TODO:A supprimer
     RollTarian(nb)
     {
         let tab;
@@ -85,6 +88,7 @@ class RollDice {
         }
         return false;
     }
+    //return a table of bolean value depending to if tab value  bigger that valsupp
     IsBiggerVal(tab,valSupp)
     {
         let tabValue = [];
@@ -129,6 +133,7 @@ class RollDice {
          });
          return tabValue;
     }
+    //return a table of bolean value depending to if tab value  smaller that valsupp
     IsSmallerVal(tab,valSupp)
     {
         let tabValue = [];
@@ -140,6 +145,7 @@ class RollDice {
          });
          return tabValue;
     }
+    //return a table of bolean value depending to if tab value equal that valsupp
     IsEqualVal(tab,valEqual)
     {
         let tabValue = [];
@@ -150,6 +156,7 @@ class RollDice {
          });
          return tabValue;
     }
+    //Calcul the number of true value on tab
     CalculSucess(tab)
     {
         let nb = 0;
@@ -166,6 +173,7 @@ class RollDice {
     {
         return typeDice.includes(pref);
     }
+    //add tab value
     SumTab(tab)
     {
         let sum = 0;
@@ -205,6 +213,7 @@ exports.run =(bot,message,args)=>{
                 {
                     //Goetia
                     case 'go':
+                        //check numbers of argument
                         switch(lengthArgs)
                         {
                             case 1:
@@ -240,7 +249,6 @@ exports.run =(bot,message,args)=>{
                             break;
                         }
                     break;
-                    //Tarian
                     
                     default:
                         switch(lengthArgs)
