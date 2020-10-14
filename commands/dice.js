@@ -195,6 +195,7 @@ class RollDice {
 
 //run to command
 exports.run =(bot,message,args)=>{
+    
     //prefixe to different roll dice
     const typeDice = ["go","ta"];
     //console.log("pi");
