@@ -9,7 +9,7 @@ exports.run = (bot,message,args) =>{
     let promesse;
     console.log("test getMembre")
     let Dao = new MembreDao();
-    promesse = Dao.postMembre(args[0],args[1]);
+    promesse = Dao.postMembres(args[0],args[1]);
     promesse.then(test => {
         console.log("cela marche");
         message.channel.send(args[0] +" "+ args[1]);

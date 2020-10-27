@@ -12,7 +12,9 @@ exports.run = (bot,message,args) =>{
     promesse = Dao.getMembre();
     promesse.then(test => {
         console.log(test + "cela marche");
-        let objetSend = JSON.parse(test);
-        message.channel.send("voici le login du premier objet membre " + objetSend[0][1]);
+        //console.log(JSON.parse(test));
+        let objetSend = test;
+        console.log(objetSend[0].id);
+        message.channel.send("voici le login du premier objet membre " + objetSend[0].login); 
     });
 }
