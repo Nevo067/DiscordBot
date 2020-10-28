@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 
-class jdrDao
+class JdrDao
 {
     constructor()
     {
@@ -9,9 +9,10 @@ class jdrDao
     }
     getJdr()
     {
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;  
         console.log("je suis appeller")
-        return this.fetch('http://localhost/backEndNutsBots/index.php/api/jdr')
-        .then(res =>  res.text())
+        return this.fetch('https://localhost:5001/api/jdr')
+        .then(res =>  res.json())
         //.then(cs => console.log(cs))
         .then(function(result)
         {
@@ -36,4 +37,7 @@ class jdrDao
             console.log(json);
         })
     }
+}
+module.exports = {
+    JdrDao : JdrDao
 }

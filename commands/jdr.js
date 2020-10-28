@@ -1,6 +1,6 @@
-const {jdrDao} = require("../dataBases/jdrDao");
+const {JdrDao} = require("../dataBases/jdrDao");
 const { MembreDao } = require("../dataBases/membreDAO");
-var {ObjetDao} = require('../dataBases/objetDao');
+const {ObjetDao} = require('../dataBases/objetDao');
 //enable to check differents parameter
 class verifRecu
 {
@@ -22,11 +22,12 @@ class verifRecu
 exports.run = (bot,message,args) =>{
     let verif = new verifRecu(4);
     //Dao of jdr
-    let jdrDao = new jdrDao();
+    let jdrDao = new JdrDao();
     //Dao of member
     let membreDao = new MembreDao();
     //Dao of objet
-    let objetDao = new objetDao;
+    let objetDao = new ObjetDao();
+    let promesse;
     if(verif.IsBetweenMaxArgs(args))
     {
         switch (args[0]) {
@@ -34,23 +35,24 @@ exports.run = (bot,message,args) =>{
                     switch (args[1]) {
                         //Show jdr
                         case "jdr":
-                            let promesse = jdrDao.getjdr();
+                            let promesse = jdrDao.getJdr();
                             promesse.then(x =>{
                                 let chaine;
-                                x.array.forEach(element => {
+                                x.forEach(element => {
+                                    console.log(element);
                                     chaine += 
-                                     " "+x.nom+
-                                     " "+x.val +"/n";
+                                     " "+element.nom+
+                                     " " +"/n";
                                 });
                                 message.channel.send(chaine);
                             })
                             break;
                         //show player
                         case "player":
-                            let promesse =membreDao.getMembreByPs(message.author.id);
+                            promesse =membreDao.getMembreByPs(message.author.id);
                             promesse.then(x =>{
                                 let chaine;
-                                x.array.forEach(element => {
+                                element.forEach(element => {
                                     chaine += 
                                      " "+x.login+
                                      "/n";
@@ -61,11 +63,11 @@ exports.run = (bot,message,args) =>{
                             break;
                         // show objet
                         case "objet":
-                            let promesse = objetDao.querry();
+                            promesse = objetDao.querry();
                             let chaine;
 
                             promesse.then(x =>{
-                                x.forEach(element => {
+                                element.forEach(element => {
                                  chaine +=
                                  " "+x.nom+
                                  " "+x.val+

@@ -31,3 +31,6 @@ class ObjetDao
     }
     
 }
+module.exports = {
+    ObjetDao : ObjetDao
+}
