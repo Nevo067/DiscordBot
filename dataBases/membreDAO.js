@@ -48,7 +48,20 @@ class MembreDao
      {
         let url = "https://localhost:5001/api/membre/ps/"+ps;
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;  
-        return this.fetch(url,{ httpsAgent: agent })
+        return this.fetch(url)
+        .then(res =>  res.json())
+        //.then(cs => console.log(cs))
+        .then(function(result)
+        {
+            console.log(result);
+            return result;
+        });
+     }
+     getMembres()
+     {
+        let url = "https://localhost:5001/api/membre";
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;  
+        return this.fetch(url)
         .then(res =>  res.json())
         //.then(cs => console.log(cs))
         .then(function(result)
@@ -113,6 +126,7 @@ class MembreDao
          })
          .then((json)=>{
              console.log(json);
+             return true;
          })
      }
 }

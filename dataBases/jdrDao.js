@@ -20,6 +20,7 @@ class JdrDao
             return result;
         });
     }
+
     postJdr(nom)
     {
        const form = new FormData();
@@ -37,6 +38,7 @@ class JdrDao
             console.log(json);
         })
     }
+    
 }
 module.exports = {
     JdrDao : JdrDao

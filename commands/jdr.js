@@ -1,6 +1,7 @@
 const {JdrDao} = require("../dataBases/jdrDao");
 const { MembreDao } = require("../dataBases/membreDAO");
 const {ObjetDao} = require('../dataBases/objetDao');
+const {CharaDao} = require('../dataBases/charaDao');
 //enable to check differents parameter
 class verifRecu
 {
@@ -27,7 +28,10 @@ exports.run = (bot,message,args) =>{
     let membreDao = new MembreDao();
     //Dao of objet
     let objetDao = new ObjetDao();
-    let promesse;
+
+    let charaDao = new CharaDao();
+    
+    let promesse ="";
     if(verif.IsBetweenMaxArgs(args))
     {
         switch (args[0]) {
@@ -35,27 +39,28 @@ exports.run = (bot,message,args) =>{
                     switch (args[1]) {
                         //Show jdr
                         case "jdr":
-                            let promesse = jdrDao.getJdr();
+                            promesse = jdrDao.getJdr();
                             promesse.then(x =>{
-                                let chaine;
+                                let chaine ="";
                                 x.forEach(element => {
-                                    console.log(element);
+                                    //console.log(element);
                                     chaine += 
+                                     " "+element.id+
                                      " "+element.nom+
-                                     " " +"/n";
+                                     " " +"\n";
                                 });
                                 message.channel.send(chaine);
                             })
                             break;
                         //show player
                         case "player":
-                            promesse =membreDao.getMembreByPs(message.author.id);
+                            promesse =membreDao.getMembres();
                             promesse.then(x =>{
-                                let chaine;
-                                element.forEach(element => {
+                                let chaine ="";
+                                x.forEach(element => {
                                     chaine += 
-                                     " "+x.login+
-                                     "/n";
+                                     " "+element.login+
+                                     "\n";
                                 });
                                 message.channel.send(chaine);
                             })
@@ -64,17 +69,30 @@ exports.run = (bot,message,args) =>{
                         // show objet
                         case "objet":
                             promesse = objetDao.querry();
-                            let chaine;
-
-                            promesse.then(x =>{
-                                element.forEach(element => {
-                                 chaine +=
-                                 " "+x.nom+
-                                 " "+x.val+
-                                 "/n";   
+                            promesse.then(t =>{
+                                console.log(t);
+                                let chaine = "";
+                                console.log(Object.keys(t));
+                                Object.keys(t).forEach(element => {
+                                    chaine += 
+                                     " "+element.login+
+                                     "\n";
                                 });
                                 message.channel.send(chaine);
+                                
                             });
+                            break;
+                        case "chara":
+                            promesse = charaDao.getChara();
+                            promesse.then(x => {
+                                x.forEach(element => {
+                                    chaine +=
+                                    " "+x.nom+
+                                    " "+x.val+
+                                    "\n";   
+                                   });
+                                   message.channel.send(chaine);
+                            })
                             break;
                         default:
                             message.channel.send("Argument n'est pas dans la liste ");
@@ -87,14 +105,19 @@ exports.run = (bot,message,args) =>{
                     case "jdr":
                         
                         break;
-                    case "player":
-                        console.log(message.author.id);
-                        membreDao.postMembres(args[2],message.author.id);
+                    case "member":
+                        //console.log(message.author.id);
+                        membreDao.postMembres(args[2],message.author.id)
+                        .then(message.channel.send("votre membre a été ajouter"));
                         break;
                     case "objet":
+                        objetDao.postObject(args[2],args[3]);
+                        break;
+                    case "chara":
                         
                         break;
                     default:
+                        message.channel.send("L'argument n'est pas dans la liste");
                         break;
                 }
                 break;
