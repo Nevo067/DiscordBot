@@ -21,7 +21,7 @@ class verifRecu
     
 }
 exports.run = (bot,message,args) =>{
-    let verif = new verifRecu(4);
+    let verif = new verifRecu(6);
     //Dao of jdr
     let jdrDao = new JdrDao();
     //Dao of member
@@ -53,7 +53,7 @@ exports.run = (bot,message,args) =>{
                             })
                             break;
                         //show player
-                        case "player":
+                        case "member":
                             promesse =membreDao.getMembres();
                             promesse.then(x =>{
                                 let chaine ="";
@@ -73,9 +73,12 @@ exports.run = (bot,message,args) =>{
                                 console.log(t);
                                 let chaine = "";
                                 console.log(Object.keys(t));
-                                Object.keys(t).forEach(element => {
+                                t.forEach(element => {
                                     chaine += 
-                                     " "+element.login+
+                                     " "+element.objetId+
+                                     " "+element.nom+
+                                     " "+element.val+
+                                     " "+element.CharaId+
                                      "\n";
                                 });
                                 message.channel.send(chaine);
@@ -89,6 +92,7 @@ exports.run = (bot,message,args) =>{
                                     chaine +=
                                     " "+x.nom+
                                     " "+x.val+
+                                    " "+x.MembredId+
                                     "\n";   
                                    });
                                    message.channel.send(chaine);
@@ -103,18 +107,30 @@ exports.run = (bot,message,args) =>{
             case "add":
                 switch (args[1]) {
                     case "jdr":
-                        
+                        jdrDao.postsJdr(args[1])
+                        .then(message.channel.send("Votre jdr a été creer"))
                         break;
                     case "member":
-                        //console.log(message.author.id);
+                        console.log(message.author.id);
                         membreDao.postMembres(args[2],message.author.id)
-                        .then(message.channel.send("votre membre a été ajouter"));
+                        .then(message.channel.send("votre membre a été ajouter")
+                        .catch(e=>{
+                            console.log(e)
+                        }));
                         break;
                     case "objet":
-                        objetDao.postObject(args[2],args[3]);
+                        console.log("cdx")
+                        objetDao.postObject(args[2],args[3],args[4])
+                        .then(message.channel.send("Votre objet est ajouter")
+                        .catch(e=>{
+                            console.log(e)
+                        })
+                        );
                         break;
                     case "chara":
-                        
+                        promesse = charaDao.postChara(args[2],args[3],args[4])
+                        console.log(promesse)
+                        promesse.then(message.channel.send("Votre charatere est ajouter"));
                         break;
                     default:
                         message.channel.send("L'argument n'est pas dans la liste");

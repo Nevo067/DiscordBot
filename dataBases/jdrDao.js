@@ -21,16 +21,17 @@ class JdrDao
         });
     }
 
-    postJdr(nom)
+    postsJdr(nom)
     {
-       const form = new FormData();
-       form.append('nom', nom);
-       const options = {
-           method: 'POST',
-           body: form,
-           headers: form.getHeaders()
-       }
-       return this.fetch('http://localhost/backEndNutsBots/index.php/api/jdr',{method:'POST',body:form})
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;  
+        let url ="https://localhost:5001/api/jdr";
+        let bodys ={
+            "nom":nom,
+        };
+        let header = {
+            "Content-Type":"application/json"
+        }
+       return this.fetch('https://localhost:5001/api/jdr',{method:'POST',body:JSON.stringify(bodys),headers:header})
         .then((res) =>{
            return res.text();
         })
@@ -38,6 +39,7 @@ class JdrDao
             console.log(json);
         })
     }
+    
     
 }
 module.exports = {
